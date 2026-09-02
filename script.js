@@ -43,7 +43,7 @@ const galleryData={
   camisetas:{title:'Camisetas',items:[['assets/camiseta.jpg','Camiseta personalizada'],['assets/camiseta-kit.jpg','Camiseta y llavero personalizados'],['assets/produccion.jpg','Producción de camisetas por volumen']]},
   mugs:{title:'Mugs',items:[['assets/mugs.jpg','Mugs personalizados'],['assets/corporativo.jpg','Mugs corporativos']]},
   llaveros:{title:'Llaveros',items:[['assets/llaveros.jpg','Llaveros personalizados'],['assets/camiseta-kit.jpg','Kit con camiseta y llavero']]},
-  vinilo:{title:'Forrado y vinilo',items:[]}
+  vinilo:{title:'Forrado y vinilo',items:[['assets/forrado-nevera-spongebob.png','Nevera forrada con vinilo personalizado de Bob Esponja']]}
 };
 
 const modal=document.getElementById('galleryModal'),body=document.getElementById('galleryBody'),title=document.getElementById('galleryTitle');
