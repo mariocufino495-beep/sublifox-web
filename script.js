@@ -23,18 +23,6 @@ addEventListener('scroll',()=>{
   const y=scrollY,h=document.documentElement.scrollHeight-innerHeight;
   if(bar)bar.classList.toggle('show',y>500&&y<h-700);
   if(progress)progress.style.width=(h?Math.min(100,y/h*100):0)+'%';
-  if(!reduceMotion){
-    document.documentElement.style.setProperty('--scrollY',y+'px');
-    const hero=document.querySelector('.hero-media');
-    if(hero)hero.style.transform=`translate3d(0,${Math.min(y*.07,36)}px,0)`;
-    document.querySelectorAll('.product-grid article').forEach((card,i)=>{
-      const r=card.getBoundingClientRect();
-      const center=innerHeight/2;
-      const offset=(r.top+r.height/2-center)/center;
-      const tilt=Math.max(-2.5,Math.min(2.5,offset*2.2));
-      card.style.setProperty('--tilt',tilt+'deg');
-    });
-  }
 },{passive:true});
 
 if(!reduceMotion && window.matchMedia('(pointer:fine)').matches){
@@ -56,4 +44,73 @@ const quickBuy=document.querySelector('.quick-buy');
 if(quickBuy && !reduceMotion){
   const buttons=[...quickBuy.querySelectorAll('button')];
   buttons.forEach((b,i)=>b.style.animationDelay=`${i*110}ms`);
+}
+
+if(!reduceMotion && window.gsap && window.ScrollTrigger){
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm=gsap.matchMedia();
+
+  mm.add('(min-width: 701px)',()=>{
+    gsap.fromTo('.hero-media img',
+      {scale:.94,yPercent:-3,rotation:2},
+      {scale:1.08,yPercent:7,rotation:0,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:1}}
+    );
+
+    gsap.utils.toArray('.product-grid article').forEach((card,i)=>{
+      const img=card.querySelector('img');
+      gsap.fromTo(img,
+        {scale:.92,yPercent:-4},
+        {scale:1.1,yPercent:6,ease:'none',scrollTrigger:{trigger:card,start:'top 92%',end:'bottom 18%',scrub:.9}}
+      );
+      gsap.fromTo(card,
+        {y:28,opacity:.72},
+        {y:0,opacity:1,ease:'power2.out',scrollTrigger:{trigger:card,start:'top 88%',end:'top 58%',scrub:.55}}
+      );
+    });
+
+    gsap.utils.toArray('.masonry figure').forEach((figure,i)=>{
+      const img=figure.querySelector('img');
+      gsap.fromTo(img,
+        {scale:.9,yPercent:-7},
+        {scale:1.13,yPercent:8,ease:'none',scrollTrigger:{trigger:figure,start:'top 95%',end:'bottom 8%',scrub:1.1}}
+      );
+    });
+
+    gsap.utils.toArray('.video-card video').forEach(video=>{
+      gsap.fromTo(video,
+        {scale:.96,yPercent:-3},
+        {scale:1.07,yPercent:4,ease:'none',scrollTrigger:{trigger:video.parentElement,start:'top 95%',end:'bottom 10%',scrub:1}}
+      );
+    });
+
+    gsap.fromTo('.wholesale',
+      {scale:.96,y:35},
+      {scale:1,y:0,ease:'none',scrollTrigger:{trigger:'.wholesale',start:'top 92%',end:'top 48%',scrub:.8}}
+    );
+  });
+
+  mm.add('(max-width: 700px)',()=>{
+    gsap.fromTo('.hero-media img',
+      {scale:.96,yPercent:-2},
+      {scale:1.04,yPercent:4,ease:'none',scrollTrigger:{trigger:'.hero-media',start:'top 92%',end:'bottom 18%',scrub:.8}}
+    );
+
+    gsap.utils.toArray('.product-grid article img,.masonry figure img').forEach(img=>{
+      const trigger=img.closest('article,figure');
+      gsap.fromTo(img,
+        {scale:.95,yPercent:-3},
+        {scale:1.06,yPercent:4,ease:'none',scrollTrigger:{trigger,start:'top 94%',end:'bottom 16%',scrub:.75}}
+      );
+    });
+
+    gsap.utils.toArray('.video-card video').forEach(video=>{
+      gsap.fromTo(video,
+        {scale:.98},
+        {scale:1.035,ease:'none',scrollTrigger:{trigger:video.parentElement,start:'top 94%',end:'bottom 18%',scrub:.7}}
+      );
+    });
+  });
+
+  window.addEventListener('load',()=>ScrollTrigger.refresh(),{once:true});
 }
