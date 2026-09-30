@@ -112,6 +112,10 @@
   transform: none;
 }
 
+img[src*="forrado-nevera-spongebob"] {
+  content: url("assets/corporativo.jpg");
+}
+
 @media (max-width: 980px) {
   .real-work-grid { grid-template-columns: repeat(2, 1fr); }
 }
