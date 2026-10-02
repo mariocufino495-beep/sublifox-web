@@ -27,3 +27,14 @@
 /* Logo original Sublifox */
 .brand>img{width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:center;box-shadow:0 0 0 2px rgba(0,200,255,.35),0 6px 20px rgba(0,200,255,.22)}
 @media(max-width:720px){.brand>img{width:44px;height:44px}}
+
+/* Configurador unificado de camisetas */
+.shirt-config-card{grid-column:span 1}
+.product-options{display:grid;gap:12px;margin:18px 0 4px}
+.product-options label{display:grid;gap:7px}
+.product-options label>span{color:#b9c8d8;font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.product-options select{width:100%;height:46px;border:1px solid rgba(155,192,226,.22);border-radius:12px;background:#06101e;color:#fff;padding:0 13px;outline:none;font-weight:700}
+.product-options select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,200,255,.08)}
+.shirt-add-quote{width:100%;margin-top:0;border:1px solid rgba(0,200,255,.38);border-radius:12px;background:rgba(0,200,255,.08);color:#fff;padding:12px 14px;font-size:.86rem;font-weight:800;cursor:pointer}
+.shirt-add-quote:hover{background:var(--cyan);color:#03101d}
+#shirt-weight-wrap[hidden]{display:none}
