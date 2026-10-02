@@ -38,3 +38,5 @@
 .shirt-add-quote{width:100%;margin-top:0;border:1px solid rgba(0,200,255,.38);border-radius:12px;background:rgba(0,200,255,.08);color:#fff;padding:12px 14px;font-size:.86rem;font-weight:800;cursor:pointer}
 .shirt-add-quote:hover{background:var(--cyan);color:#03101d}
 #shirt-weight-wrap[hidden]{display:none}
+
+#shirt-sleeve-wrap[hidden]{display:none}
