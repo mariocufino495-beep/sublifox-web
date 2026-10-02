@@ -121,8 +121,32 @@ function getShirtConfiguration() {
     };
   }
 
+  if (material === "basica") {
+    return {
+      product: "Camiseta personalizada — Básica algodón",
+      price: "Consultar precio",
+      prefix: ""
+    };
+  }
+
+  if (material === "comp-corta") {
+    return {
+      product: "Camiseta de compresión — Manga corta",
+      price: "$66.000",
+      prefix: "Desde"
+    };
+  }
+
+  if (material === "comp-larga") {
+    return {
+      product: "Camiseta de compresión — Manga larga",
+      price: "$69.000",
+      prefix: "Desde"
+    };
+  }
+
   return {
-    product: "Camiseta personalizada — Básica algodón",
+    product: "Crop top personalizado",
     price: "Consultar precio",
     prefix: ""
   };
