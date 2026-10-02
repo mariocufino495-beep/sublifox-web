@@ -97,6 +97,8 @@ function renderQuote() {
 const shirtMaterial = document.querySelector("#shirt-material");
 const shirtWeight = document.querySelector("#shirt-weight");
 const shirtWeightWrap = document.querySelector("#shirt-weight-wrap");
+const shirtSleeveWrap = document.querySelector("#shirt-sleeve-wrap");
+const shirtSleeve = document.querySelector("#shirt-sleeve");
 const shirtPrice = document.querySelector("#shirt-price");
 const shirtAddQuote = document.querySelector("#shirt-add-quote");
 
@@ -129,18 +131,11 @@ function getShirtConfiguration() {
     };
   }
 
-  if (material === "comp-corta") {
+  if (material === "compresion") {
+    const sleeve = shirtSleeve.value;
     return {
-      product: "Camiseta de compresión — Manga corta",
-      price: "$66.000",
-      prefix: "Desde"
-    };
-  }
-
-  if (material === "comp-larga") {
-    return {
-      product: "Camiseta de compresión — Manga larga",
-      price: "$69.000",
+      product: `Camiseta de compresión — ${sleeve === "larga" ? "Manga larga" : "Manga corta"}`,
+      price: sleeve === "larga" ? "$69.000" : "$66.000",
       prefix: "Desde"
     };
   }
@@ -164,7 +159,9 @@ function updateShirtConfigurator() {
   if (!shirtMaterial) return;
   const config = getShirtConfiguration();
   const isPeruvian = shirtMaterial.value === "peruano";
+  const isCompression = shirtMaterial.value === "compresion";
   shirtWeightWrap.hidden = !isPeruvian;
+  shirtSleeveWrap.hidden = !isCompression;
   shirtPrice.innerHTML = config.prefix
     ? `<small>${config.prefix}</small><strong>${config.price}</strong>`
     : `<strong>${config.price}</strong>`;
@@ -173,6 +170,7 @@ function updateShirtConfigurator() {
 if (shirtMaterial) {
   shirtMaterial.addEventListener("change", updateShirtConfigurator);
   shirtWeight.addEventListener("change", updateShirtConfigurator);
+  shirtSleeve.addEventListener("change", updateShirtConfigurator);
 
   shirtAddQuote.addEventListener("click", () => {
     const config = getShirtConfiguration();
