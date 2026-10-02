@@ -145,8 +145,16 @@ function getShirtConfiguration() {
     };
   }
 
+  if (material === "croptop") {
+    return {
+      product: "Crop top personalizado",
+      price: "Consultar precio",
+      prefix: ""
+    };
+  }
+
   return {
-    product: "Crop top personalizado",
+    product: "Polo personalizado",
     price: "Consultar precio",
     prefix: ""
   };
