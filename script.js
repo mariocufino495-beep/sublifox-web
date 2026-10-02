@@ -1,5 +1,16 @@
+const categoryNames = {
+  textil: "Estampados y camisetas",
+  mugs: "Mugs y termos",
+  laser: "Láser, MDF y acrílico",
+  publicidad: "Publicidad y avisos",
+  vinilos: "Vinilos y vehículos",
+  papeleria: "Papelería e impresión",
+  detalles: "Detalles y recordatorios",
+  todos: "Todos los productos"
+};
+
 const state = {
-  filter: "todos",
+  filter: "textil",
   search: "",
   quote: JSON.parse(localStorage.getItem("sublifoxQuote") || "[]")
 };
@@ -9,6 +20,7 @@ const filters = [...document.querySelectorAll(".filter")];
 const search = document.querySelector("#product-search");
 const visibleCount = document.querySelector("#visible-count");
 const emptyState = document.querySelector("#empty-state");
+const activeCategoryTitle = document.querySelector("#active-category-title");
 const drawer = document.querySelector("#quote-drawer");
 const backdrop = document.querySelector(".drawer-backdrop");
 const quoteList = document.querySelector("#quote-list");
@@ -27,36 +39,36 @@ function applyFilters() {
   const term = normalize(state.search.trim());
   let count = 0;
   cards.forEach((card) => {
-    const categories = card.dataset.category.split(" ");
-    const matchesCategory = state.filter === "todos" || categories.includes(state.filter);
+    const matchesCategory = state.filter === "todos" || card.dataset.category === state.filter;
     const matchesSearch = !term || normalize(`${card.dataset.name} ${card.textContent}`).includes(term);
     const show = matchesCategory && matchesSearch;
     card.hidden = !show;
     if (show) count += 1;
   });
   visibleCount.textContent = count;
+  activeCategoryTitle.textContent = categoryNames[state.filter] || "Productos";
   emptyState.hidden = count !== 0;
 }
 
-filters.forEach((button) => {
-  button.addEventListener("click", () => {
-    state.filter = button.dataset.filter;
-    filters.forEach((item) => item.classList.toggle("active", item === button));
-    applyFilters();
-  });
-});
+function setCategory(filter) {
+  state.filter = filter;
+  state.search = "";
+  search.value = "";
+  filters.forEach((item) => item.classList.toggle("active", item.dataset.filter === filter));
+  applyFilters();
+  document.querySelector(".category-window-head").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+filters.forEach((button) => button.addEventListener("click", () => setCategory(button.dataset.filter)));
+document.querySelector("[data-filter-all]").addEventListener("click", () => setCategory("todos"));
 
 search.addEventListener("input", (event) => {
   state.search = event.target.value;
+  if (state.search.trim()) {
+    state.filter = "todos";
+    filters.forEach((item) => item.classList.remove("active"));
+  }
   applyFilters();
-});
-
-document.querySelectorAll("[data-jump-filter]").forEach((link) => {
-  link.addEventListener("click", () => {
-    const target = link.dataset.jumpFilter;
-    const button = filters.find((item) => item.dataset.filter === target);
-    if (button) button.click();
-  });
 });
 
 function saveQuote() {
@@ -141,15 +153,7 @@ document.querySelector("#clear-quote").addEventListener("click", () => {
 
 sendQuote.addEventListener("click", () => {
   const lines = state.quote.map((item, index) => `${index + 1}. ${item.product} — ${item.price}`);
-  const message = [
-    "Hola Sublifox, quiero cotizar estos productos:",
-    "",
-    ...lines,
-    "",
-    "Cantidad aproximada:",
-    "Fecha en que lo necesito:",
-    "Ciudad de entrega:"
-  ].join("\n");
+  const message = ["Hola Sublifox, quiero cotizar estos productos:", "", ...lines, "", "Cantidad aproximada:", "Fecha en que lo necesito:", "Ciudad de entrega:"].join("\n");
   window.open(`https://wa.me/573027499180?text=${encodeURIComponent(message)}`, "_blank", "noopener");
 });
 
