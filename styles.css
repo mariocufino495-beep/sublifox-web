@@ -23,3 +23,7 @@
 @media(max-width:980px){.category-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.product-grid-text{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:720px){.hero-clean{padding:62px 0 50px;text-align:left}.hero-clean .hero-actions{justify-content:flex-start}.hero-clean .hero-facts{justify-content:flex-start}.hero-clean .hero-facts li:first-child{padding-left:0;border-left:0}.category-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.category-tabs .filter{min-height:105px}.catalog-tools-simple{grid-template-columns:1fr}.category-window-head{display:block}.category-window-head p{margin-top:10px}.product-grid-text{grid-template-columns:1fr}.product-grid-text .product-card{min-height:0}}
 @media(max-width:430px){.category-tabs{grid-template-columns:1fr}.category-tabs .filter{min-height:82px;flex-direction:row;align-items:center;justify-content:flex-start;gap:14px}.hero-clean .hero-facts{grid-template-columns:1fr;gap:12px}.hero-clean .hero-facts li{padding:0;border:0}}
+
+/* Logo original Sublifox */
+.brand>img{width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:center;box-shadow:0 0 0 2px rgba(0,200,255,.35),0 6px 20px rgba(0,200,255,.22)}
+@media(max-width:720px){.brand>img{width:44px;height:44px}}
