@@ -93,7 +93,70 @@ function renderQuote() {
   quoteCount.textContent = state.quote.length;
   quoteEmpty.hidden = state.quote.length > 0;
   sendQuote.disabled = state.quote.length === 0;
-  document.querySelectorAll(".add-quote").forEach((button) => {
+  
+const shirtMaterial = document.querySelector("#shirt-material");
+const shirtWeight = document.querySelector("#shirt-weight");
+const shirtWeightWrap = document.querySelector("#shirt-weight-wrap");
+const shirtPrice = document.querySelector("#shirt-price");
+const shirtAddQuote = document.querySelector("#shirt-add-quote");
+
+function getShirtConfiguration() {
+  if (!shirtMaterial) return null;
+  const material = shirtMaterial.value;
+
+  if (material === "peruano") {
+    const weight = shirtWeight.value;
+    return {
+      product: `Camiseta personalizada — Algodón peruano ${weight} g`,
+      price: weight === "250" ? "$74.900" : "$64.900",
+      prefix: "Desde"
+    };
+  }
+
+  if (material === "durazno") {
+    return {
+      product: "Camiseta personalizada — Piel durazno",
+      price: "Consultar precio",
+      prefix: ""
+    };
+  }
+
+  return {
+    product: "Camiseta personalizada — Básica algodón",
+    price: "Consultar precio",
+    prefix: ""
+  };
+}
+
+function updateShirtConfigurator() {
+  if (!shirtMaterial) return;
+  const config = getShirtConfiguration();
+  const isPeruvian = shirtMaterial.value === "peruano";
+  shirtWeightWrap.hidden = !isPeruvian;
+  shirtPrice.innerHTML = config.prefix
+    ? `<small>${config.prefix}</small><strong>${config.price}</strong>`
+    : `<strong>${config.price}</strong>`;
+}
+
+if (shirtMaterial) {
+  shirtMaterial.addEventListener("change", updateShirtConfigurator);
+  shirtWeight.addEventListener("change", updateShirtConfigurator);
+
+  shirtAddQuote.addEventListener("click", () => {
+    const config = getShirtConfiguration();
+    if (state.quote.some((item) => item.product === config.product)) {
+      showToast("Esta configuración ya está en tu lista");
+      return;
+    }
+    state.quote.push({ product: config.product, price: config.price });
+    renderQuote();
+    showToast("Camiseta agregada a tu cotización");
+  });
+
+  updateShirtConfigurator();
+}
+
+document.querySelectorAll(".add-quote").forEach((button) => {
     const added = state.quote.some((item) => item.product === button.dataset.product);
     button.classList.toggle("added", added);
     button.textContent = added ? "Agregado" : "Agregar a cotización";
